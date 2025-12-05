@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CD Consult Design System - Corporate Modern B2B */
+
+@layer base {
+  :root {
+    /* Core Brand Colors */
+    --brand-red: 0 74% 40%;        /* #ae1e22 - Primary CTA and accents */
+    --brand-red-hover: 0 74% 35%;  /* Hover state for red */
+    --brand-black: 0 0% 11%;       /* #1b1b1b - Primary text and dark backgrounds */
+    --brand-gray: 0 0% 49%;        /* #7e7e7e - Secondary text */
+    --brand-light: 210 25% 97%;    /* #F4F7F9 - Light backgrounds */
+    
+    /* Semantic Colors */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 11%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 11%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 11%;
+    
+    --primary: 0 74% 40%;           /* Brand red */
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 210 25% 97%;       /* Light gray */
+    --secondary-foreground: 0 0% 11%;
+    
+    --muted: 210 25% 97%;
+    --muted-foreground: 0 0% 49%;
+    
+    --accent: 0 0% 11%;             /* Brand black */
+    --accent-foreground: 0 0% 100%;
+    
+    --destructive: 0 74% 40%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 74% 40%;
+    
+    --radius: 0.5rem;
+    
+    /* Custom Design Tokens */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-card: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -2px hsl(0 0% 0% / 0.1);
+    --shadow-elevated: 0 10px 30px -10px hsl(0 0% 0% / 0.15);
+  }
+  
+  .dark {
+    --background: 0 0% 11%;
+    --foreground: 0 0% 100%;
+    
+    --card: 0 0% 15%;
+    --card-foreground: 0 0% 100%;
+    
+    --popover: 0 0% 15%;
+    --popover-foreground: 0 0% 100%;
+    
+    --primary: 0 74% 40%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 65%;
+    
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 100%;
+    
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 0 74% 40%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  html, body {
+  overflow-x: hidden;
+}
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 700;
+  }
+  
+  /* Smooth Scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+}
+
+.mouse-indicator {
+  position: absolute;
+  left: 50%;
+  bottom: 40px;
+  width: 25px;
+  height: 45px;
+  border: 2px solid white;
+  border-radius: 15px;
+  cursor: pointer;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.mouse-indicator::after {
+  content: "";
+  display: block;
+  width: 3px;
+  height: 6px;
+  margin: 2px auto 0;
+  background-color: white;
+  border-radius: 50%;
+  animation: wheel-up-down 1.6s ease infinite;
+}
+
+@keyframes wheel-up-down {
+  0% {
+    margin-top: 2px;
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    margin-top: 20px;
+    opacity: 0;
+  }
+}
+
