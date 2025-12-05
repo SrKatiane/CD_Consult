@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Mission from "@/components/Mission";
+import WhyConsultant from "@/components/WhyConsultant";
 import Stats from "@/components/Stats";
 import Solutions from "@/components/Solutions";
 import Founder from "@/components/Founder";
@@ -35,6 +36,7 @@ const Index = () => {
         <Header />
         <Hero />
         <Mission />
+        <WhyConsultant />
         <Stats />
         <Solutions />
         <Founder />
