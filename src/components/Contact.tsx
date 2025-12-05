@@ -2,12 +2,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Phone, MessageCircle  } from "lucide-react";
+import { Mail, Phone, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
   const { toast } = useToast();
+
   const [formData, setFormData] = useState({
     name: "",
     company: "",
@@ -16,13 +17,46 @@ const Contact = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Mensagem enviada!",
-      description: "Entraremos em contato em breve.",
-    });
-    setFormData({ name: "", company: "",email: "", phone: "", message: "" });
+
+    try {
+      const response = await fetch("https://formspree.io/f/mldqlwzg", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Mensagem enviada!",
+          description: "Entraremos em contato em breve.",
+        });
+
+        setFormData({
+          name: "",
+          company: "",
+          email: "",
+          phone: "",
+          message: "",
+        });
+      } else {
+        toast({
+          title: "Erro ao enviar",
+          description: "Tente novamente mais tarde.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Erro de conexão",
+        description: "Não foi possível enviar sua mensagem.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -36,8 +70,9 @@ const Contact = () => {
             Transforme a comunicação da sua empresa em vantagem competitiva
           </p>
         </div>
- 
+
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 max-w-6xl mx-auto">
+          {/* FORM */}
           <Card className="animate-slide-in-left">
             <CardContent className="p-6 md:p-8">
               <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
@@ -48,7 +83,9 @@ const Contact = () => {
                   <Input
                     id="name"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     placeholder="Seu nome"
                     required
                     className="h-11 md:h-12"
@@ -62,7 +99,9 @@ const Contact = () => {
                   <Input
                     id="company"
                     value={formData.company}
-                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, company: e.target.value })
+                    }
                     placeholder="Nome da empresa"
                     required
                     className="h-11 md:h-12"
@@ -77,7 +116,9 @@ const Contact = () => {
                     id="email"
                     type="email"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
                     placeholder="seu@email.com"
                     required
                     className="h-11 md:h-12"
@@ -92,7 +133,9 @@ const Contact = () => {
                     id="phone"
                     type="tel"
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
                     placeholder="(00) 00000-0000"
                     required
                     className="h-11 md:h-12"
@@ -106,7 +149,9 @@ const Contact = () => {
                   <Textarea
                     id="message"
                     value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, message: e.target.value })
+                    }
                     placeholder="Conte-nos sobre seu projeto"
                     rows={5}
                     required
@@ -114,20 +159,27 @@ const Contact = () => {
                   />
                 </div>
 
-                <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-11 md:h-12" size="lg">
+                <Button
+                  type="submit"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-11 md:h-12"
+                  size="lg"
+                >
                   Solicitar Contato
                 </Button>
               </form>
             </CardContent>
           </Card>
 
+          {/* CONTACT INFO */}
           <div className="space-y-4 md:space-y-6 animate-slide-in-right">
             <Card>
               <CardContent className="p-4 md:p-6 flex items-start gap-3 md:gap-4">
                 <Mail className="w-5 h-5 md:w-6 md:h-6 text-primary flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="font-bold mb-1 text-sm md:text-base">E-mail</h3>
-                  <p className="text-sm md:text-base text-muted-foreground break-all">contato@cdconsult.com.br</p>
+                  <p className="text-sm md:text-base text-muted-foreground break-all">
+                    contato@cdconsult.net
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -137,7 +189,9 @@ const Contact = () => {
                 <Phone className="w-5 h-5 md:w-6 md:h-6 text-primary flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="font-bold mb-1 text-sm md:text-base">Telefone</h3>
-                  <p className="text-sm md:text-base text-muted-foreground">+55 (11) 99999-9999</p>
+                  <p className="text-sm md:text-base text-muted-foreground">
+                    +55 (11)2970-1440
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -147,11 +201,12 @@ const Contact = () => {
                 <MessageCircle className="w-5 h-5 md:w-6 md:h-6 text-primary flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="font-bold mb-1 text-sm md:text-base">Whatsapp</h3>
-                  <p className="text-sm md:text-base text-muted-foreground">+55 (11) 99999-9999</p>
+                  <p className="text-sm md:text-base text-muted-foreground">
+                    +55 (11) 9 1181-1790
+                  </p>
                 </div>
               </CardContent>
             </Card>
-
           </div>
         </div>
       </div>
