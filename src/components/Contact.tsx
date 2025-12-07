@@ -17,47 +17,47 @@ const Contact = () => {
     message: "",
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    try {
-      const response = await fetch("https://formspree.io/f/mldqlwzg", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(formData),
+  try {
+    const response = await fetch("/api/send-email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
+      toast({
+        title: "Mensagem enviada!",
+        description: "Entraremos em contato em breve.",
       });
 
-      if (response.ok) {
-        toast({
-          title: "Mensagem enviada!",
-          description: "Entraremos em contato em breve.",
-        });
-
-        setFormData({
-          name: "",
-          company: "",
-          email: "",
-          phone: "",
-          message: "",
-        });
-      } else {
-        toast({
-          title: "Erro ao enviar",
-          description: "Tente novamente mais tarde.",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
+      setFormData({
+        name: "",
+        company: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+    } else {
       toast({
-        title: "Erro de conexão",
-        description: "Não foi possível enviar sua mensagem.",
+        title: "Erro ao enviar",
+        description: "Tente novamente mais tarde.",
         variant: "destructive",
       });
     }
-  };
+  } catch (error) {
+    toast({
+      title: "Erro de conexão",
+      description: "Não foi possível enviar sua mensagem.",
+      variant: "destructive",
+    });
+  }
+};
+
 
   return (
     <section id="contato" className="py-20 bg-secondary">
