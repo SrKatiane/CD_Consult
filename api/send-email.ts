@@ -9,6 +9,7 @@ export default async function handler(
     return res.status(405).json({ message: 'Método não permitido' });
   }
 
+  
   // o body que vem do formulário
   const { name, company, email, phone, message } = req.body;
 
