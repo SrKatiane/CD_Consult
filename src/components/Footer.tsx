@@ -1,5 +1,5 @@
 import logo from "@/assets/logo-cd-consult-new.png";
-import { Linkedin, Mail } from "lucide-react";
+import { Instagram ,Linkedin, Mail } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -49,7 +49,16 @@ const Footer = () => {
             <h3 className="font-bold mb-4 text-sm md:text-base">Conecte-se</h3>
             <div className="flex gap-4">
               <a
-                href="https://linkedin.com"
+                href="https://www.instagram.com/cd.consult/?hl=pt-BR"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-smooth p-2 -m-2"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-5 h-5 md:w-6 md:h-6" />
+              </a>
+              <a
+                href="https://br.linkedin.com/company/cd-consult-br"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-smooth p-2 -m-2"
@@ -58,7 +67,7 @@ const Footer = () => {
                 <Linkedin className="w-5 h-5 md:w-6 md:h-6" />
               </a>
               <a
-                href="mailto:contato@cdconsult.com.br"
+                href="mailto:contato@cdconsult.net"
                 className="text-muted-foreground hover:text-primary transition-smooth p-2 -m-2"
                 aria-label="Email"
               >
@@ -69,7 +78,11 @@ const Footer = () => {
         </div>
 
         <div className="border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} CD Consult - AV & UC Technologies. Todos os direitos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} CD Consult - AV & UC Technologies. Todos os direitos reservados -
+            <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-smooth ml-1">
+            Política de Privacidade
+            </a>
+          </p>
         </div>
       </div>
     </footer>
