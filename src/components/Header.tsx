@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom"; 
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
@@ -7,12 +7,13 @@ import logo from "@/assets/logo-cd-consult-new.png";
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
   const isPrivacyPage = location.pathname === "/politica-de-privacidade";
 
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    // Se estiver na página de política, força o estilo "scrolled"
     if (isPrivacyPage) {
       setIsScrolled(true);
       return;
@@ -26,65 +27,78 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isPrivacyPage]);
 
-  const scrollToSection = (id: string) => {
-    if (isPrivacyPage) return; // página interna não possui seções de scroll
-    const element = document.getElementById(id);
+  const handleNavigation = (sectionId: string) => {
+    if (isPrivacyPage) {
+      // Se estiver na página de política → volta para a home
+      navigate("/");
+
+      // delay para permitir render antes do scroll
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const offset = 80;
+          const position = element.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top: position, behavior: "smooth" });
+        }
+      }, 200);
+
+      return;
+    }
+
+    // Home → scroll normal
+    const element = document.getElementById(sectionId);
     if (element) {
       const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+      const position = element.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: position, behavior: "smooth" });
     }
   };
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-background shadow-md py-3"
-          : "bg-transparent py-5"
+        isScrolled ? "bg-background shadow-md py-3" : "bg-transparent py-5"
       }`}
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <div className="flex items-center">
+        <div className="flex items-center cursor-pointer" onClick={() => navigate("/")}>
           <img src={logo} alt="CD Consult" className="h-12 md:h-14 lg:h-16 w-auto" />
         </div>
 
         <nav className="hidden md:flex items-center gap-8">
-          <button
-            onClick={() => scrollToSection("inicio")}
+          <button onClick={() => handleNavigation("inicio")}
             className={`text-sm font-medium transition-smooth ${
               isScrolled ? "text-black hover:text-primary" : "text-white hover:text-primary"
             }`}
           >
             Início
           </button>
-          <button
-            onClick={() => scrollToSection("sobre")}
+
+          <button onClick={() => handleNavigation("sobre")}
             className={`text-sm font-medium transition-smooth ${
               isScrolled ? "text-black hover:text-primary" : "text-white hover:text-primary"
             }`}
           >
             Sobre Nós
           </button>
-          <button
-            onClick={() => scrollToSection("solucoes")}
+
+          <button onClick={() => handleNavigation("solucoes")}
             className={`text-sm font-medium transition-smooth ${
               isScrolled ? "text-black hover:text-primary" : "text-white hover:text-primary"
             }`}
           >
             Soluções
           </button>
-          <button
-            onClick={() => scrollToSection("clientes")}
+
+          <button onClick={() => handleNavigation("clientes")}
             className={`text-sm font-medium transition-smooth ${
               isScrolled ? "text-black hover:text-primary" : "text-white hover:text-primary"
             }`}
           >
             Clientes
           </button>
-          <button
-            onClick={() => scrollToSection("contato")}
+
+          <button onClick={() => handleNavigation("contato")}
             className={`text-sm font-medium transition-smooth ${
               isScrolled ? "text-black hover:text-primary" : "text-white hover:text-primary"
             }`}
@@ -94,7 +108,7 @@ const Header = () => {
         </nav>
 
         <Button
-          onClick={() => scrollToSection("contato")}
+          onClick={() => handleNavigation("contato")}
           className="hidden md:flex bg-primary hover:bg-primary/90 text-primary-foreground"
         >
           Agendar diagnóstico
@@ -106,45 +120,41 @@ const Header = () => {
               <Menu className="h-6 w-6" />
             </Button>
           </SheetTrigger>
+
           <SheetContent side="right" className="w-[300px]">
             <nav className="flex flex-col gap-6 mt-8">
-              <button
-                onClick={() => scrollToSection("inicio")}
+              <button onClick={() => handleNavigation("inicio")}
                 className="text-left text-lg font-medium text-black hover:text-primary transition-smooth"
               >
                 Início
               </button>
 
-              <button
-                onClick={() => scrollToSection("sobre")}
+              <button onClick={() => handleNavigation("sobre")}
                 className="text-left text-lg font-medium text-black hover:text-primary transition-smooth"
               >
                 Sobre Nós
               </button>
 
-              <button
-                onClick={() => scrollToSection("solucoes")}
+              <button onClick={() => handleNavigation("solucoes")}
                 className="text-left text-lg font-medium text-black hover:text-primary transition-smooth"
               >
                 Soluções
               </button>
 
-              <button
-                onClick={() => scrollToSection("clientes")}
+              <button onClick={() => handleNavigation("clientes")}
                 className="text-left text-lg font-medium text-black hover:text-primary transition-smooth"
               >
                 Clientes
               </button>
 
-              <button
-                onClick={() => scrollToSection("contato")}
+              <button onClick={() => handleNavigation("contato")}
                 className="text-left text-lg font-medium text-black hover:text-primary transition-smooth"
               >
                 Contato
               </button>
 
               <Button
-                onClick={() => scrollToSection("contato")}
+                onClick={() => handleNavigation("contato")}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground w-full mt-4"
               >
                 Agendar diagnóstico
